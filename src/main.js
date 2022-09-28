@@ -1,14 +1,20 @@
-"use strict";
+'use strict';
 
-import Bullet from "./Bullet.js";
-import Enemy from "./Enemy.js";
-import Game from "./Game.js";
+import Bullet from './Bullet.js';
+import Enemy from './Enemy.js';
+import Game from './Game.js';
 
 // 캔버스 셋팅
 let canvas;
 let ctx;
-canvas = document.createElement("canvas");
-ctx = canvas.getContext("2d");
+canvas = document.createElement('canvas');
+canvas.style.cssText = `
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+ctx = canvas.getContext('2d');
 canvas.width = 400;
 canvas.height = 700;
 document.body.appendChild(canvas);
@@ -31,33 +37,33 @@ let g = new Game();
 
 function loadImage() {
   backgroundImage = new Image();
-  backgroundImage.src = "images/bg.gif";
+  backgroundImage.src = 'images/bg.gif';
 
   spaceshipImage = new Image();
-  spaceshipImage.src = "images/spaceship.png";
+  spaceshipImage.src = 'images/spaceship.png';
 
   bulletImage = new Image();
-  bulletImage.src = "images/bullet.png";
+  bulletImage.src = 'images/bullet.png';
 
   enemyImage = new Image();
-  enemyImage.src = "images/enemy.png";
+  enemyImage.src = 'images/enemy.png';
 
   gameOverImage = new Image();
-  gameOverImage.src = "images/gameOver.png";
+  gameOverImage.src = 'images/gameOver.png';
 
   explosionImage = new Image();
-  explosionImage.src = "images/explosion.png";
+  explosionImage.src = 'images/explosion.png';
 }
 
 let keysDown = {};
 function setupKeyboardListnner() {
-  document.addEventListener("keydown", function (event) {
+  document.addEventListener('keydown', function (event) {
     keysDown[event.key] = true;
   });
-  document.addEventListener("keyup", function (event) {
+  document.addEventListener('keyup', function (event) {
     delete keysDown[event.key];
 
-    if (event.key === " ") {
+    if (event.key === ' ') {
       createBullet(); // 총알 생성
     }
   });
@@ -75,22 +81,22 @@ function createEnemy() {
 
 function update() {
   // 우주선의 움직임
-  if ("ArrowRight" in keysDown) {
+  if ('ArrowRight' in keysDown) {
     if (spaceshipX + 60 < canvas.width) {
       spaceshipX += 5;
     }
   }
-  if ("ArrowLeft" in keysDown) {
+  if ('ArrowLeft' in keysDown) {
     if (spaceshipX > 0) {
       spaceshipX -= 5;
     }
   }
-  if ("ArrowDown" in keysDown) {
+  if ('ArrowDown' in keysDown) {
     if (spaceshipY + 60 < canvas.height) {
       spaceshipY += 5;
     }
   }
-  if ("ArrowUp" in keysDown) {
+  if ('ArrowUp' in keysDown) {
     if (spaceshipY > 0) {
       spaceshipY -= 5;
     }
@@ -112,8 +118,8 @@ function render() {
   ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
   ctx.drawImage(spaceshipImage, spaceshipX, spaceshipY);
   ctx.fillText(`Score:${Game.score}`, 20, 20);
-  ctx.fillStyle = "white";
-  ctx.font = "20px Arial";
+  ctx.fillStyle = 'white';
+  ctx.font = '20px Arial';
 
   for (let i = 0; i < Bullet.bulletList?.length; i++) {
     if (Bullet.bulletList[i].alive) {
