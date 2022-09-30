@@ -13,6 +13,7 @@ class Bullet {
     this.alive = true;
     Bullet.bulletList.push(this);
   }
+
   update() {
     this.y -= 7; // 총알 속도
   }
